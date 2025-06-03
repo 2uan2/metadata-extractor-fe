@@ -9,6 +9,8 @@ import ReportEditor from "./features/detail/ReportEditor.jsx";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
+axios.defaults.headers.common["ngrok-skip-browser-warning"] = "true";
+
 let router = createBrowserRouter([
   {
     path: "/",

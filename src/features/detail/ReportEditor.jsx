@@ -74,22 +74,6 @@ const ReportEditor = () => {
         <Toaster postition="top-center" />
       </div>
       <div className="p-2 space-x-2">
-        <Button>Test</Button>
-        <Button
-          onClick={() => {
-            toast("hello world");
-            setReportData((prevReport) => {
-              return prevReport.map((report) => {
-                if (report.id == 1) {
-                  return { ...report, name: "tetetet" };
-                }
-                return report;
-              });
-            });
-          }}
-        >
-          tetet
-        </Button>
         <Button onClick={updateTable}>Save changes</Button>
         <Button onClick={downloadDocxReport}>Download Word File</Button>
         <Button onClick={downloadPdfReport}>Download Pdf File</Button>

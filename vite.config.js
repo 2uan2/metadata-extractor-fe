@@ -9,7 +9,7 @@ export default defineConfig({
   server: {
     host: "0.0.0.0",
     port: 5173,
-    allowedHosts: ["*", "4633-1-55-131-67.ngrok-free.app"],
+    allowedHosts: ["*"],
   },
   resolve: {
     alias: {
