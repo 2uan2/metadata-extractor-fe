@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -18,12 +19,12 @@ import { useTranslation } from "react-i18next";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-const AddIndexDialog = ({ table, onAddIndexSuccess }) => {
+const UpdateTemplateDialog = ({ template, onUpdateSuccess }) => {
   const { t } = useTranslation();
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState(template);
   const [open, setOpen] = useState(false);
 
-  const onAddIndexClick = () => {
+  const onUpdateTemplateClick = () => {
     setOpen(true);
   };
 
@@ -33,19 +34,19 @@ const AddIndexDialog = ({ table, onAddIndexSuccess }) => {
     });
   };
 
-  const onSubmitColumnClick = () => {
-    const toastId = toast.loading(t("addingIndexToast"));
+  const onUpdateTemplateSubmit = () => {
+    const toastId = toast.loading(t("updatingToast"));
     setOpen(false);
     axios
-      .post(`${BASE_URL}/api/tables/${table.id}/indexes`, formData)
+      .put(`${BASE_URL}/api/templates/${template.id}`, formData)
       .then((response) => {
-        onAddIndexSuccess(response.data);
-        setFormData({});
-        toast.success(t("successfulAddToast"), { id: toastId });
+        onUpdateSuccess(response.data);
+        // setFormData(response.data);
+        toast.success(t("successfulUpdateToast"), { id: toastId });
       })
       .catch(() => {
         setOpen(true);
-        toast.error(t("failureAddToast"), { id: toastId });
+        toast.error(t("failureUpdateToast"), { id: toastId });
       });
   };
 
@@ -53,18 +54,22 @@ const AddIndexDialog = ({ table, onAddIndexSuccess }) => {
     <Dialog open={open} onOpenChange={() => setOpen(!open)}>
       <form>
         <DialogTrigger asChild>
-          <Button onClick={onAddIndexClick}>{t("addIndexButtonText")}</Button>
+          <Button onClick={onUpdateTemplateClick}>
+            {t("updateTemplateButtonText")}
+          </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{t("addIndexButtonText")}</DialogTitle>
+            <DialogTitle>{t("updateTemplateTitle")}</DialogTitle>
             <DialogDescription>
-              {t("addIndexToTableDescription", { tableName: table.name })}
+              {t("updateTemplateDescription", {
+                templateId: template.id,
+              })}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="nameInput">{t("indexNameLabel")}</Label>
+              <Label htmlFor="nameInput">{t("templateNameText")}</Label>
               <Input
                 id="nameInput"
                 value={formData.name}
@@ -72,22 +77,22 @@ const AddIndexDialog = ({ table, onAddIndexSuccess }) => {
               ></Input>
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="referencedColumnName">
-                {t("indexReferencedColumnNameLabel")}
+              <Label htmlFor="descriptionInput">
+                {t("templateDescriptionText")}
               </Label>
-              <Input
-                id="referencedColumnName"
-                value={formData.referencedColumnName}
-                onChange={(e) => onChange(e, "referencedColumnName")}
-              ></Input>
+              <Textarea
+                id="descriptionInput"
+                value={formData.description}
+                onChange={(e) => onChange(e, "description")}
+              ></Textarea>
             </div>
           </div>
           <DialogFooter>
             <DialogClose asChild>
               <Button>{t("cancelButtonText")}</Button>
             </DialogClose>
-            <Button type="submit" onClick={onSubmitColumnClick}>
-              {t("addIndexButtonText")}
+            <Button type="submit" onClick={onUpdateTemplateSubmit}>
+              {t("updateTemplateButtonText")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -96,4 +101,4 @@ const AddIndexDialog = ({ table, onAddIndexSuccess }) => {
   );
 };
 
-export default AddIndexDialog;
+export default UpdateTemplateDialog;

@@ -7,18 +7,11 @@ import axios from "axios";
 import { toast, Toaster } from "react-hot-toast";
 import AddConstraintDialog from "./AddConstraintDialog";
 import AddIndexDialog from "./AddIndexDialog";
+import { formatDataTypeAndLength } from "@/shared/utils";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 const ReportEditorDetail = ({ table, setReportData }) => {
-  // useEffect(() => {
-  //   console.log("columns changed");
-  //   console.log(table.columns);
-  //   if (columnRows) {
-  //     console.log("printing out rows...");
-  //     console.log(columnRows);
-  //   }
-  // }, [table.columns]);
   const indexColumns = [
     {
       field: "id",
@@ -141,17 +134,6 @@ const ReportEditorDetail = ({ table, setReportData }) => {
       ],
     },
   ];
-
-  function formatDataTypeAndLength(dataType, dataLength) {
-    return `${dataType}${
-      dataLength != null &&
-      dataLength != undefined &&
-      dataLength != "" &&
-      !isNaN(dataLength)
-        ? `(${dataLength})`
-        : ""
-    }`;
-  }
 
   const columnRows = useMemo(() => {
     // console.log("-------------------------------------------");
@@ -311,7 +293,7 @@ const ReportEditorDetail = ({ table, setReportData }) => {
     <div>
       <Toaster />
       <div className="mt-8 mb-2 flex justify-between">
-        <h1 className="text-3xl">{table.name}</h1>
+        <h1 className="font-bold text-3xl">{table.name}</h1>
         <AddColumnDialog
           table={table}
           onAddColumnSuccess={onAddColumnSuccess}
@@ -326,7 +308,7 @@ const ReportEditorDetail = ({ table, setReportData }) => {
         }}
       />
       <div className="mt-6 mb-2 flex justify-between">
-        <h1 className="text-2xl">Constraints</h1>
+        <h1 className="text-2xl font-bold">Constraints</h1>
         <AddConstraintDialog
           table={table}
           onAddConstraintSuccess={onAddConstraintSuccess}
@@ -339,7 +321,7 @@ const ReportEditorDetail = ({ table, setReportData }) => {
         processRowUpdate={processConstraintRowUpdate}
       />
       <div className="mt-6 mb-2 flex justify-between">
-        <h1 className="text-2xl">Indexes</h1>
+        <h1 className="text-2xl font-bold">Indexes</h1>
         <AddIndexDialog table={table} onAddIndexSuccess={onAddIndexSuccess} />
       </div>
       <DataGrid

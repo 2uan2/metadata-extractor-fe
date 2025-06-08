@@ -15,14 +15,16 @@ import axios from "axios";
 import { FormInput } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 const AddColumnDialog = ({ table, onAddColumnSuccess }) => {
+  const { t, i18n } = useTranslation();
   const [formData, setFormData] = useState({});
   const [open, setOpen] = useState(false);
 
-  const onAddColumnClick = (e) => {
+  const onAddColumnClick = () => {
     setOpen(true);
   };
 
@@ -32,21 +34,19 @@ const AddColumnDialog = ({ table, onAddColumnSuccess }) => {
     });
   };
 
-  const onSubmitColumnClick = (e) => {
-    // e.preventDefault();
-    const toastId = toast.loading("Adding column...");
+  const onSubmitColumnClick = () => {
+    const toastId = toast.loading(t("addingColumnToast"));
     setOpen(false);
     axios
       .post(`${BASE_URL}/api/tables/${table.id}/columns`, formData)
       .then((response) => {
-        console.log(response.data);
         onAddColumnSuccess(response.data);
         setFormData({});
-        toast.success("Successfully added column!", { id: toastId });
+        toast.success(t("successfulAddToast"), { id: toastId });
       })
-      .catch((error) => {
+      .catch(() => {
         setOpen(true);
-        toast.error("Uh oh, something went wrong", { id: toastId });
+        toast.error(t("failureAddToast"), { id: toastId });
       });
   };
 
@@ -59,19 +59,19 @@ const AddColumnDialog = ({ table, onAddColumnSuccess }) => {
               onAddColumnClick(e);
             }}
           >
-            Add Column
+            {t("addColumnButtonText")}
           </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Add Column</DialogTitle>
+            <DialogTitle>{t("addColumnDialogTitle")}</DialogTitle>
             <DialogDescription>
-              Add a column to {table.name} table
+              {t("addColumnToTableDescription", { tableName: table.name })}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="fieldNameInput">Field Name</Label>
+              <Label htmlFor="fieldNameInput">{t("fieldNameLabel")}</Label>
               <Input
                 id="fieldNameInput"
                 value={formData.fieldName}
@@ -79,7 +79,7 @@ const AddColumnDialog = ({ table, onAddColumnSuccess }) => {
               ></Input>
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="dataTypeInput">Data Type</Label>
+              <Label htmlFor="dataTypeInput">{t("dataTypeLabel")}</Label>
               <Input
                 id="dataTypeInput"
                 value={formData.dataType}
@@ -87,7 +87,7 @@ const AddColumnDialog = ({ table, onAddColumnSuccess }) => {
               ></Input>
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="dataLengthInput">Data Length</Label>
+              <Label htmlFor="dataLengthInput">{t("dataLengthLabel")}</Label>
               <Input
                 id="dataLengthInput"
                 value={formData.dataLength}
@@ -95,7 +95,7 @@ const AddColumnDialog = ({ table, onAddColumnSuccess }) => {
               ></Input>
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="nullableInput">Nullable</Label>
+              <Label htmlFor="nullableInput">{t("nullableLabel")}</Label>
               <Input
                 id="nullableInput"
                 value={formData.nullable}
@@ -103,7 +103,9 @@ const AddColumnDialog = ({ table, onAddColumnSuccess }) => {
               ></Input>
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="autoIncrementInput">Auto Increment</Label>
+              <Label htmlFor="autoIncrementInput">
+                {t("autoIncrementLabel")}
+              </Label>
               <Input
                 id="autoIncrementInput"
                 value={formData.autoIncrement}
@@ -111,7 +113,7 @@ const AddColumnDialog = ({ table, onAddColumnSuccess }) => {
               ></Input>
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="keyTypeInput">Key Type</Label>
+              <Label htmlFor="keyTypeInput">{t("keyTypeLabel")}</Label>
               <Input
                 id="keyTypeInput"
                 value={formData.keyType}
@@ -119,7 +121,9 @@ const AddColumnDialog = ({ table, onAddColumnSuccess }) => {
               ></Input>
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="defaultValueInput">Default Value</Label>
+              <Label htmlFor="defaultValueInput">
+                {t("defaultValueLabel")}
+              </Label>
               <Input
                 id="defaultValueInput"
                 value={formData.defaultValue}
@@ -127,7 +131,7 @@ const AddColumnDialog = ({ table, onAddColumnSuccess }) => {
               ></Input>
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="descriptionInput">Description</Label>
+              <Label htmlFor="descriptionInput">{t("descriptionLabel")}</Label>
               <Input
                 id="descriptionInput"
                 value={formData.description}
@@ -137,10 +141,10 @@ const AddColumnDialog = ({ table, onAddColumnSuccess }) => {
           </div>
           <DialogFooter>
             <DialogClose asChild>
-              <Button>Cancel</Button>
+              <Button>{t("cancelButtonText")}</Button>
             </DialogClose>
             <Button type="submit" onClick={onSubmitColumnClick}>
-              Add Column
+              {t("addColumnButtonText")}
             </Button>
           </DialogFooter>
         </DialogContent>

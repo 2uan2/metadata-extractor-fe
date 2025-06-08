@@ -5,12 +5,15 @@ import {
   CardContent,
   CardHeader,
 } from "@/components/ui/card";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 
 const ReportContainer = ({ report, onDeleteButtonClick }) => {
+  const { t } = useTranslation();
+
   return (
     <div>
-      <Link to={`/${report.id}`}>
+      <Link to={`/reports/${report.id}`}>
         <Card>
           <CardHeader className="">
             {report.url}
@@ -19,7 +22,7 @@ const ReportContainer = ({ report, onDeleteButtonClick }) => {
                 variant={"destructive"}
                 onClick={(e) => onDeleteButtonClick(e, report.id)}
               >
-                Delete
+                {t("deleteButtonText")}
               </Button>
             </CardAction>
           </CardHeader>

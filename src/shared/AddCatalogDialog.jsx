@@ -18,12 +18,12 @@ import { useTranslation } from "react-i18next";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-const AddIndexDialog = ({ table, onAddIndexSuccess }) => {
+const AddCatalogDialog = ({ reportData, onAddCatalogSuccess }) => {
   const { t } = useTranslation();
   const [formData, setFormData] = useState({});
   const [open, setOpen] = useState(false);
 
-  const onAddIndexClick = () => {
+  const onAddCatalogClick = () => {
     setOpen(true);
   };
 
@@ -33,13 +33,13 @@ const AddIndexDialog = ({ table, onAddIndexSuccess }) => {
     });
   };
 
-  const onSubmitColumnClick = () => {
-    const toastId = toast.loading(t("addingIndexToast"));
+  const onSubmitTableClick = () => {
+    const toastId = toast.loading(t("addingTableToast"));
     setOpen(false);
     axios
-      .post(`${BASE_URL}/api/tables/${table.id}/indexes`, formData)
+      .post(`${BASE_URL}/api/reports/${reportData.id}/catalogs`, formData)
       .then((response) => {
-        onAddIndexSuccess(response.data);
+        onAddCatalogSuccess(response.data);
         setFormData({});
         toast.success(t("successfulAddToast"), { id: toastId });
       })
@@ -53,32 +53,26 @@ const AddIndexDialog = ({ table, onAddIndexSuccess }) => {
     <Dialog open={open} onOpenChange={() => setOpen(!open)}>
       <form>
         <DialogTrigger asChild>
-          <Button onClick={onAddIndexClick}>{t("addIndexButtonText")}</Button>
+          <Button onClick={onAddCatalogClick}>
+            {t("addCatalogDialogTitle")}
+          </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{t("addIndexButtonText")}</DialogTitle>
+            <DialogTitle>{t("addCatalogDialogTitle")}</DialogTitle>
             <DialogDescription>
-              {t("addIndexToTableDescription", { tableName: table.name })}
+              {t("addTableToCatalogDescription", {
+                reportUrl: reportData.url,
+              })}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="nameInput">{t("indexNameLabel")}</Label>
+              <Label htmlFor="nameInput">{t("catalogNameText")}</Label>
               <Input
                 id="nameInput"
                 value={formData.name}
                 onChange={(e) => onChange(e, "name")}
-              ></Input>
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="referencedColumnName">
-                {t("indexReferencedColumnNameLabel")}
-              </Label>
-              <Input
-                id="referencedColumnName"
-                value={formData.referencedColumnName}
-                onChange={(e) => onChange(e, "referencedColumnName")}
               ></Input>
             </div>
           </div>
@@ -86,8 +80,8 @@ const AddIndexDialog = ({ table, onAddIndexSuccess }) => {
             <DialogClose asChild>
               <Button>{t("cancelButtonText")}</Button>
             </DialogClose>
-            <Button type="submit" onClick={onSubmitColumnClick}>
-              {t("addIndexButtonText")}
+            <Button type="submit" onClick={onSubmitTableClick}>
+              {t("addCatalogDialogTitle")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -96,4 +90,4 @@ const AddIndexDialog = ({ table, onAddIndexSuccess }) => {
   );
 };
 
-export default AddIndexDialog;
+export default AddCatalogDialog;

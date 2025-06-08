@@ -100,7 +100,11 @@ const ReportEditor = () => {
         }}
       />
       {reportData.map((table) => (
-        <ReportEditorDetail table={table} setReportData={setReportData} />
+        <ReportEditorDetail
+          key={table.id}
+          table={table}
+          setReportData={setReportData}
+        />
       ))}
       {/* {reportData.map((table) => {
         return <TableDetail table={table} editSubTable={editSubTable} />;

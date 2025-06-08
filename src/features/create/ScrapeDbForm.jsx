@@ -1,17 +1,21 @@
+import { Label } from "@/components/ui/label";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import axios from "axios";
+import { t } from "i18next";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 const DB_NAMES = ["PostgreSQL", "MySQL", "MariaDB"];
 
 function ScrapeDbForm() {
+  const { t, i18n } = useTranslation();
   const [databaseAddress, setDatabaseAddress] = useState("");
   const [port, setPort] = useState("");
   const [username, setUsername] = useState("");
@@ -19,8 +23,8 @@ function ScrapeDbForm() {
   const [dbName, setDbName] = useState(DB_NAMES[0]);
 
   const sendScrapeData = () => {
-    console.log("username is " + username);
-    console.log("password is " + password);
+    // console.log("username is " + username);
+    // console.log("password is " + password);
     const toastId = toast.loading("Creating report ...");
     axios
       .post(`${BASE_URL}/api/connect`, {
@@ -53,7 +57,7 @@ function ScrapeDbForm() {
         onSubmit={onDbFormSubmit}
       >
         <div className="p-2 grid ">
-          <label className="">Database Address</label>
+          <Label className="">{t("databaseUrlText")}</Label>
           <input
             className="border-b-1  focus:border-blue-300"
             placeholder="192.168.1.69"
@@ -63,7 +67,7 @@ function ScrapeDbForm() {
           />
         </div>
         <div className="p-2 grid ">
-          <label className=" ">Port</label>
+          <Label className=" ">{t("portText")}</Label>
           <input
             className=""
             placeholder="3306"
@@ -73,7 +77,7 @@ function ScrapeDbForm() {
           />
         </div>
         <div className="p-2 grid ">
-          <label>Username</label>
+          <Label>{t("usernameText")}</Label>
           <input
             type="text"
             placeholder="mysql"
@@ -82,7 +86,7 @@ function ScrapeDbForm() {
           />
         </div>
         <div className="p-2 grid ">
-          <label>Password</label>
+          <Label>{t("passwordText")}</Label>
           <input
             type="password"
             placeholder="my-secret-password"
@@ -91,7 +95,7 @@ function ScrapeDbForm() {
           />
         </div>
         <div className="p-2 grid ">
-          <label>Database Type</label>
+          <Label>{t("databaseTypeText")}</Label>
           <select
             className="text-2xl m-2"
             value={dbName}
@@ -110,7 +114,7 @@ function ScrapeDbForm() {
         className="w-150 mt-4 py-2 px-4 rounded-2xl border-2 border-transparent focus:border-blue-300 bg-gray-300 hover:bg-gray-400 hover:cursor-pointer transition-colors duration-250 text-2xl "
         onClick={sendScrapeData}
       >
-        Scrape database
+        {t("scrapeButtonText")}
       </button>
     </div>
   );
