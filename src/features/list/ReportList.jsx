@@ -23,7 +23,7 @@ const ReportList = () => {
   const [reportPage, setReportPage] = useState({ content: [] });
   const [searchQuery, setSearchQuery] = useState("");
   const [searchParams, setSearchParams] = useSearchParams({
-    page: 1,
+    page: 0,
     size: 5,
     // url: "",
   });
