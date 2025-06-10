@@ -1,6 +1,11 @@
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import { createBrowserRouter, data, RouterProvider } from "react-router";
+import {
+  createBrowserRouter,
+  data,
+  Navigate,
+  RouterProvider,
+} from "react-router";
 import ScrapeDbForm from "./features/create/ScrapeDbForm.jsx";
 import RootLayout from "./layout/RootLayout.jsx";
 import ReportList from "./features/list/ReportList.jsx";
@@ -20,6 +25,10 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 // axios.defaults.headers.common["ngrok-skip-browser-warning"] = "true";
 
 let router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Navigate to="/reports" replace />,
+  },
   {
     path: "/reports",
     Component: RootLayout,
