@@ -130,5 +130,9 @@
 
   "selectDownloadOptionText": "Select template and file type for generating report",
   "selectedTemplateLabel": "Select template",
-  "selectFileTypeLabel": "Select file type"
+  "selectFileTypeLabel": "Select file type",
+
+  "columnList": "Columns: {{columns}}",
+  "constraintList": "Constraints: {{constraints}}",
+  "indexList": "Indexes: {{indexes}}"
 }

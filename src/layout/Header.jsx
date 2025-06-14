@@ -10,7 +10,7 @@ const Header = () => {
   };
 
   return (
-    <div className="bg-gray-100 py-2 5xl flex justify-between">
+    <div className="bg-gray-200 py-2 5xl flex justify-between">
       <div className="">
         <Link className="" to="/reports/create">
           <Button size="lg" variant="link">

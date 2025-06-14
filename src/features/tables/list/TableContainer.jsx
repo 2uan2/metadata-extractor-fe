@@ -53,14 +53,60 @@ const TableContainer = ({ table, setTablePage }) => {
             </CardAction>
             <CardDescription>{table.description}</CardDescription>
           </CardHeader>
-          <CardContent>
-            {table.columns.map((column) => (
+          <CardContent className="p-4">
+            {table.columns && table.columns.length > 0 && (
+              <>
+                <div>
+                  {t("columnList", {
+                    columns: table.columns
+                      .map((column) => column.fieldName)
+                      .join(", "),
+                  })}
+                </div>
+                <div>
+                  {t("constraintList", {
+                    constraints: table.constraints
+                      .map((constraint) => constraint.keyName)
+                      .join(", "),
+                  })}
+                </div>
+                <div>
+                  {t("indexList", {
+                    indexes: table.indexes
+                      .map((index) => index.name)
+                      .join(", "),
+                  })}
+                </div>
+              </>
+              // <table className="border-separate border-gray-400 border w-full">
+              //   <thead>
+              //     <tr>
+              //       <th>Column Name</th>
+              //       <th>Column Data Type and Length</th>
+              //       <th>Column Description</th>
+              //     </tr>
+              //   </thead>
+              //   <tbody>
+              //     {table.columns.map((column) => (
+              //       <tr key={column.id}>
+              //         <td>{column.fieldName}</td>
+              //         <td>
+              //           {column.dataType}({column.dataType})
+              //         </td>
+              //         {/* <td>{column.nullable}</td> */}
+              //         <td>{column.description}</td>
+              //       </tr>
+              //     ))}
+              //   </tbody>
+              // </table>
+            )}
+            {/* {table.columns.map((column) => (
               <div className="flex">
                 <div>{column.fieldName}: &nbsp;</div>
                 <div>{column.dataType}</div>
                 <div>({column.dataLength})</div>
               </div>
-            ))}
+            ))} */}
           </CardContent>
         </Link>
       </Card>

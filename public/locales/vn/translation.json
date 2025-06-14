@@ -130,5 +130,9 @@
 
   "selectDownloadOptionText": "Chọn template và loại file để tạo báo cáo",
   "selectedTemplateLabel": "Chọn template",
-  "selectFileTypeLabel": "Chọn loại file đầu ra"
+  "selectFileTypeLabel": "Chọn loại file đầu ra",
+
+  "columnList": "Các cột: {{columns}}",
+  "constraintList": "Các ràng buộc: {{constraints}}",
+  "indexList": "Các chỉ mục: {{indexes}}"
 }

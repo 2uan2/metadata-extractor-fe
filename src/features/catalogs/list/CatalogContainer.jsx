@@ -40,9 +40,7 @@ const CatalogContainer = ({ catalog, setCatalogPage }) => {
       <Link to={`${catalog.id}`}>
         <Card>
           <CardHeader>
-            <CardTitle>
-              {catalog.id}. {catalog.name}
-            </CardTitle>
+            <CardTitle>{catalog.name}</CardTitle>
             <CardAction>
               <Button
                 variant={"destructive"}
@@ -54,12 +52,24 @@ const CatalogContainer = ({ catalog, setCatalogPage }) => {
             <CardDescription></CardDescription>
           </CardHeader>
           <CardContent>
-            {catalog.tables.map((table) => (
-              <div>
-                <div>{table.name}</div>
-                <div>{table.description}</div>
-              </div>
-            ))}
+            {catalog.tables && catalog.tables.length > 0 && (
+              <table className="border-separate border-gray-400 border w-full">
+                <thead>
+                  <tr>
+                    <th>{t("tableNameLabel")}</th>
+                    <th>{t("descriptionLabel")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {catalog.tables.map((table) => (
+                    <tr key={table.id}>
+                      <td>{table.name}</td>
+                      <td>{table.description}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </CardContent>
         </Card>
       </Link>
